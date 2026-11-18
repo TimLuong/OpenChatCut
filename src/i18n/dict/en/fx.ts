@@ -169,4 +169,9 @@ export default {
   '金黄': 'Golden',
   '偏色': 'Color Cast',
   '青冷': 'Cyan',
+  '美颜磨皮': 'Skin Smoothing',
+  '只对肤色区域做保边平滑（双边滤波），可轻微提亮；眼睛、头发与背景保持清晰。': 'Edge-preserving (bilateral) smoothing on skin tones only, with an optional soft lift; eyes, hair and the background stay sharp.',
+  '磨皮强度': 'Smoothing',
+  '磨皮半径': 'Smoothing Radius',
+  '提亮': 'Brighten',
 } as Record<string, string>;

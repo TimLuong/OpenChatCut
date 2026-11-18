@@ -141,4 +141,9 @@ export default {
   '金黄': 'Vàng óng',
   '偏色': 'Ám màu',
   '青冷': 'Xanh lơ',
+  '美颜磨皮': 'Làm mịn da',
+  '只对肤色区域做保边平滑（双边滤波），可轻微提亮；眼睛、头发与背景保持清晰。': 'Làm mịn giữ cạnh (lọc song phương) chỉ trên vùng màu da, có thể nâng sáng nhẹ; mắt, tóc và hậu cảnh vẫn sắc nét.',
+  '磨皮强度': 'Độ mịn da',
+  '磨皮半径': 'Bán kính làm mịn',
+  '提亮': 'Nâng sáng',
 } as Record<string, string>;
