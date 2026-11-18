@@ -14,6 +14,7 @@ import {
 } from './assemblyai';
 import { localTranscribePathResumable } from './local-asr';
 import { genericCloudTranscribePath } from './generic-cloud-asr';
+import { getLocale } from '../i18n/locale';
 
 export const TRANSCRIPTION_PROVIDER_KEY = 'cc.transcriptionProvider';
 export const TRANSCRIPTION_LANGUAGE_KEY = 'cc.transcriptionLanguage';
@@ -69,7 +70,8 @@ export function preferredTranscriptionLanguage(): string {
   } catch {
     // SSR / private browsing: fall through to the default.
   }
-  return 'zh';
+  // No saved choice: a Vietnamese interface most likely edits Vietnamese speech.
+  return getLocale() === 'vi' ? 'vi' : 'zh';
 }
 
 export function preferredTranscriptionDiarization(): boolean {

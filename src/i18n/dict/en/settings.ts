@@ -126,6 +126,7 @@ export default {
   '德语（de）': 'German (de)',
   '俄语（ru）': 'Russian (ru)',
   '葡萄牙语（pt）': 'Portuguese (pt)',
+  '越南语（vi）': 'Vietnamese (vi)',
   '启用': 'On',
   '停用': 'Off',
   '本地模型（whisper）': 'Local model (Whisper)',

@@ -8,11 +8,12 @@ import exportPanel from './exportPanel';
 import fx from './fx';
 import media from './media';
 import review from './review';
+import settings from './settings';
 import timeline from './timeline';
 import topbar from './topbar';
 import transcript from './transcript';
 
 export const VI: Record<string, string> = Object.assign(
   {},
-  audio, captions, editor, exportPanel, fx, media, review, timeline, topbar, transcript,
+  audio, captions, editor, exportPanel, fx, media, review, settings, timeline, topbar, transcript,
 );

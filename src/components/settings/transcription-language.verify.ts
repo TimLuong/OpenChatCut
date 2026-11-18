@@ -13,7 +13,7 @@ function transcriptionLanguageOptions(pageFields: readonly { name: string; optio
 
 for (const page of TRANSCRIPTION_SETTINGS_GROUP.vendors) {
   const options = transcriptionLanguageOptions(page.fields);
-  for (const language of ['it', 'ru', 'pt']) {
+  for (const language of ['it', 'ru', 'pt', 'vi']) {
     assert.ok(
       options.some((option) => option.value === language),
       `${page.key} must offer ${language} transcription`,
@@ -28,6 +28,10 @@ assert.ok(
 assert.ok(
   transcriptionLanguageOptions(localAsrPage.fields).some((option) => option.value === 'ru'),
   'local ASR settings must offer Russian transcription',
+);
+assert.ok(
+  transcriptionLanguageOptions(localAsrPage.fields).some((option) => option.value === 'vi'),
+  'local ASR settings must offer Vietnamese transcription',
 );
 assert.ok(
   transcriptionLanguageOptions(localAsrPage.fields).some((option) => option.value === 'pt'),
