@@ -24,5 +24,8 @@ assert.equal(documentElement.lang, 'zh-CN');
 setLocale('ko');
 assert.equal(persistedLocale, 'ko');
 assert.equal(documentElement.lang, 'ko');
+setLocale('vi');
+assert.equal(persistedLocale, 'vi');
+assert.equal(documentElement.lang, 'vi');
 
 console.log('locale.verify: persisted and changed locales update the document language');

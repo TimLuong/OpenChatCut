@@ -1,0 +1,20 @@
+// VI dictionary (field fragmentation, key = Chinese original text). Data files are exempt from the upper limit of row count.
+export default {
+  '切换界面语言': 'Đổi ngôn ngữ giao diện',
+  '返回工程列表': 'Về danh sách dự án',
+  '双击重命名': 'Nhấp đúp để đổi tên',
+  '编辑快捷键': 'Sửa phím tắt',
+  '撤销': 'Hoàn tác',
+  '重做': 'Làm lại',
+  '设计风格(品牌)': 'Phong cách thiết kế (thương hiệu)',
+  '历史版本': 'Lịch sử phiên bản',
+  '切换面板布局': 'Đổi bố cục bảng',
+  '导出 MP4': 'Xuất MP4',
+  '导出中…': 'Đang xuất…',
+  '导出': 'Xuất',
+  '账户': 'Tài khoản',
+  '窗口控制': 'Điều khiển cửa sổ',
+  '关闭窗口': 'Đóng cửa sổ',
+  '最小化窗口': 'Thu nhỏ cửa sổ',
+  '缩放窗口': 'Phóng to cửa sổ',
+} as Record<string, string>;

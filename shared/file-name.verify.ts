@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { sanitizeFileName } from './file-name.ts';
+import { limitFileNameBytes, MAX_FILE_NAME_BYTES, sanitizeFileName } from './file-name.ts';
 import { sanitizeFileName as fromServer } from '../server/file-name.ts';
 
 // Built rather than written literally: a raw control character in source is invisible
@@ -28,6 +28,20 @@ assert.equal(sanitizeFileName('.', 'fallback'), '.', 'a bare dot is a legal name
 
 // Trimming is outer-only: interior spacing is the user's choice.
 assert.equal(sanitizeFileName('  spaced name  ', 'fallback'), 'spaced name');
+
+// Long names are capped in UTF-8 bytes, not characters, on a grapheme boundary,
+// and a short extension survives the cut. Vietnamese titles are 1–3 bytes per
+// character, so a 120-character title used to overflow the 240-byte export cap.
+const longVietnamese = 'Hướng dẫn dựng video bằng điện thoại cho người mới bắt đầu '.repeat(4) + '.mp4';
+const capped = sanitizeFileName(longVietnamese, 'fallback');
+assert.ok(new TextEncoder().encode(capped).length <= MAX_FILE_NAME_BYTES, 'capped name fits the byte budget');
+assert.ok(capped.endsWith('.mp4'), 'the extension survives truncation');
+assert.ok(longVietnamese.startsWith(capped.slice(0, -4)), 'truncation keeps a prefix of the original');
+assert.equal(sanitizeFileName(capped, 'fallback'), capped, 'sanitizing is idempotent once capped');
+assert.equal(limitFileNameBytes('ab😀cd', 5), 'ab', 'a 4-byte emoji is never split');
+assert.equal(limitFileNameBytes('short.mov', 5), 'short.mov'.slice(0, 1) + '.mov', 'extension kept when the stem must shrink');
+assert.equal(limitFileNameBytes('e\u0301e\u0301', 4), 'e\u0301', 'a combining accent stays with its base letter');
+assert.equal(sanitizeFileName('x'.repeat(300), 'fallback', Infinity).length, 300, 'Infinity skips the cap');
 
 // Both hosts must resolve to this one implementation. If either re-export is ever
 // replaced by a second copy, this identity check fails before the two can silently

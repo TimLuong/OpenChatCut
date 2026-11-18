@@ -67,6 +67,14 @@ async function fetchDicts(locale: Locale): Promise<LocaleDicts> {
     ]);
     return { ui: th.TH, uiFallback: en.EN, data: thData.default, dataFallback: enData.default };
   }
+  if (locale === 'vi') {
+    // Vietnamese covers the core editing surfaces; untranslated UI and all
+    // data names fall back to English.
+    const [vi, en, enData] = await Promise.all([
+      import('./dict/vi'), import('./dict/en'), import('./dict/en/templates-data'),
+    ]);
+    return { ui: vi.VI, uiFallback: en.EN, data: enData.default, dataFallback: EMPTY };
+  }
   const [it, itData, en, enData] = await Promise.all([
     import('./dict/it'), import('./dict/it/templates-data'),
     import('./dict/en'), import('./dict/en/templates-data'),
