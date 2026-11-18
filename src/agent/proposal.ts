@@ -71,6 +71,7 @@ const VERB: Record<string, string> = {
   edit_track: '管理轨道',
   manage_media_pool: '整理素材池',
   isolate_voice: '人声隔离',
+  remove_background: '抠像去背景',
   apply_script: '改稿应用',
   manage_effects: '特效',
   edit_item: '编辑片段',
