@@ -88,6 +88,13 @@ const ROUTING_GROUPS: readonly RoutingGroup[] = [
   },
   {
     requestKeywords: [
+      'background', 'remove background', 'cutout', 'matte', 'green screen',
+      'xóa phông', 'tách nền', 'xóa nền', '抠像', '去背景', '绿幕',
+    ],
+    tools: ['remove_background', 'edit_item', 'edit_track'],
+  },
+  {
+    requestKeywords: [
       'library', 'template', 'effect', 'transition', 'zoom', 'lut', 'graphic', 'watermark',
       '素材库', '模板', '特效', '转场', '动效', '水印',
     ],

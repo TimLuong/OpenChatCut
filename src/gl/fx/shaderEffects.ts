@@ -38,6 +38,7 @@ import fisheyeFrag from './fisheye.frag.ts';
 import kaleidoscopeFrag from './kaleidoscope.frag.ts';
 import edgeGlowFrag from './edge-glow.frag.ts';
 import softBlurFrag from './soft-blur.frag.ts';
+import skinSmoothFrag from './skin-smooth.frag.ts';
 import lightLeakFrag from './light-leak.frag.ts';
 import sepiaFrag from './sepia.frag.ts';
 import invertFrag from './invert.frag.ts';
@@ -391,6 +392,17 @@ export const FX_EFFECTS: Record<string, FxDef> = {
       { key: 'amount', label: '模糊量', default: 2.5, min: 0, max: 12, step: 0.1 },
     ],
   },
+  'builtin:fx-skin-smooth': {
+    id: 'builtin:fx-skin-smooth',
+    name: '美颜磨皮',
+    desc: '只对肤色区域做保边平滑（双边滤波），可轻微提亮；眼睛、头发与背景保持清晰。',
+    frag: skinSmoothFrag,
+    props: [
+      { key: 'smooth', label: '磨皮强度', default: 0.6, min: 0, max: 1, step: 0.01 },
+      { key: 'radius', label: '磨皮半径', default: 6, min: 1, max: 16, step: 0.5 },
+      { key: 'brighten', label: '提亮', default: 0.08, min: 0, max: 0.4, step: 0.01 },
+    ],
+  },
   'builtin:fx-light-leak': {
     id: 'builtin:fx-light-leak',
     name: '漏光',
@@ -475,6 +487,7 @@ export const FX_ORDER = [
   'builtin:fx-kaleidoscope',
   'builtin:fx-edge-glow',
   'builtin:fx-soft-blur',
+  'builtin:fx-skin-smooth',
   'builtin:fx-light-leak',
   'builtin:fx-sepia',
   'builtin:fx-invert',

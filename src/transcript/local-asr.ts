@@ -10,6 +10,7 @@ import {
   type AssemblyAiCheckpointWriter, type AssemblyAiResumeCheckpoint, type TranscribeOptions,
 } from './assemblyai';
 import { downsampleMono, hasTranscribableSignal } from './client-asr-extract';
+import { filterAsrHallucinations } from './hallucination-filter';
 import { ASR_INFERENCE_CONTRACT } from '../../shared/asr-inference-contract';
 import { ASR_MODELS } from '../../shared/asr-models';
 import { t } from '../i18n/locale';
@@ -321,7 +322,8 @@ export async function localTranscribePathResumable(
   const native = nativeEnabled ? await tryNativeEngine(path, opts, config, status, onWait) : {};
   if (native.result) {
     await onCheckpoint({ ...checkpoint, providerStatus: 'completed' });
-    return toTranscriptResult(native.result);
+    // whisper.cpp decoded the audio itself, so only the text-based checks run here.
+    return toTranscriptResult(filterAsrHallucinations(native.result).result);
   }
   assertBrowserAsrReady(config, status, { enabled: nativeEnabled, failure: native.failure });
   const source = await runTranscriptionStage(t('音轨准备'), () => transcriptionSourceForPath(path, opts, true));
@@ -336,7 +338,7 @@ export async function localTranscribePathResumable(
   await onCheckpoint({ ...checkpoint, providerStatus: 'processing' });
   const result = await runTranscriptionStage(t('模型推理'), () => client.transcribe(samples, opts.languageCode ?? 'zh'));
   await onCheckpoint({ ...checkpoint, providerStatus: 'completed' });
-  return toTranscriptResult(result);
+  return toTranscriptResult(filterAsrHallucinations(result, { samples, sampleRate: TARGET_SR }).result);
 }
 
 export async function localTranscribePath(

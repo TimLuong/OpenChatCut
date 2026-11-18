@@ -29,6 +29,7 @@ import { PUBLISH_TOOL_NAMES, PUBLISH_TOOL_SCHEMAS } from './tools/schemas/publis
 import { TEMPLATE_TOOL_NAMES, TEMPLATE_TOOL_SCHEMAS } from './tools/schemas/template-tools';
 import { LOUDNESS_TOOL_NAMES, LOUDNESS_TOOL_SCHEMAS } from './tools/schemas/loudness-tools';
 import { ISOLATE_VOICE_TOOL_NAMES, ISOLATE_VOICE_TOOL_SCHEMAS } from './tools/schemas/isolate-voice-tools';
+import { REMOVE_BACKGROUND_TOOL_NAMES, REMOVE_BACKGROUND_TOOL_SCHEMAS } from './tools/schemas/remove-background-tools';
 import { SKILL_TOOL_NAMES, SKILL_TOOL_SCHEMAS } from './tools/schemas/skill-tools';
 import { INSTALL_SKILL_TOOL_NAMES, INSTALL_SKILL_TOOL_SCHEMAS } from './tools/schemas/install-skill-tools';
 import { RUN_SKILL_SCRIPT_TOOL_NAMES, RUN_SKILL_SCRIPT_TOOL_SCHEMAS } from './tools/schemas/skill-exec-tools';
@@ -130,6 +131,7 @@ export const TOOL_SCHEMAS: AgentToolSchema[] = [
   ...LOUDNESS_TOOL_SCHEMAS,
   // Voice isolation: FFmpeg spectral denoising → setItemDenoise(denoisedSrc).
   ...ISOLATE_VOICE_TOOL_SCHEMAS,
+  ...REMOVE_BACKGROUND_TOOL_SCHEMAS,
   // Custom skill CRUD: list/get/create/update/delete; custom and built-in skills share the same catalog.
   ...SKILL_TOOL_SCHEMAS,
   // Text watermark overlay: enabled/text/position/opacity for preview and burned-in export.
@@ -247,6 +249,7 @@ const EXECUTOR_GROUPS: ReadonlyArray<readonly [ReadonlySet<string>, ToolExecutor
   [TEMPLATE_TOOL_NAMES, async () => (await import('./tools/template-tools')).execTemplateTool],
   [LOUDNESS_TOOL_NAMES, async () => (await import('./tools/loudness-tools')).execLoudnessTool],
   [ISOLATE_VOICE_TOOL_NAMES, async () => (await import('./tools/isolate-voice-tools')).execIsolateVoiceTool],
+  [REMOVE_BACKGROUND_TOOL_NAMES, async () => (await import('./tools/remove-background-tools')).execRemoveBackgroundTool],
   [SKILL_TOOL_NAMES, async () => (await import('./tools/skill-tools')).execSkillTool],
   [INSTALL_SKILL_TOOL_NAMES, async () => (await import('./tools/install-skill-tools')).execInstallSkillTool],
   [RUN_SKILL_SCRIPT_TOOL_NAMES, async () => (await import('./tools/skill-exec-tools')).execRunSkillScriptTool],

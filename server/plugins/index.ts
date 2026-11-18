@@ -28,6 +28,7 @@ import { sceneDetectionPlugin } from "./scene-detection.ts";
 import { autoGradePlugin } from "./auto-grade.ts";
 import { mediaPreviewPlugin } from "./media-preview.ts";
 import { isolateVoicePlugin } from "./isolate-voice.ts";
+import { removeBackgroundPlugin } from "./remove-background.ts";
 import { normalizeMediaPlugin } from "./normalize-media.ts";
 import { probeMediaPlugin } from "./probe-media.ts";
 import { imageGenerationPlugin } from "./image.ts";
@@ -106,6 +107,7 @@ export function serverPlugins(options: { projectStoreHttp?: boolean } = {}): Plu
     autoGradePlugin(),
     mediaPreviewPlugin(),
     isolateVoicePlugin(),
+    removeBackgroundPlugin(),
     normalizeMediaPlugin(),
     probeMediaPlugin(),
     imageGenerationPlugin({

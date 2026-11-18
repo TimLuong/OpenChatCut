@@ -17,7 +17,7 @@ import { ffmpegThreadArgs, spawnMediaProcess } from '../media-process.ts';
 
 const MAX_JSON = 8 * 1024;
 const FFMPEG_TIMEOUT_MS = 30 * 60_000;
-export const VOICE_ISOLATION_ENGINE_VERSION = 'ffmpeg-afftdn-v2';
+export const VOICE_ISOLATION_ENGINE_VERSION = 'ffmpeg-speechchain-v3';
 
 function sendJson(res: ServerResponse, status: number, body: unknown): void {
   res.statusCode = status;
@@ -114,15 +114,32 @@ function nrFromStrength(strength: number): number {
 }
 
 /**
- * Build an open-box speech isolation filter chain.
- * afftdn may be missing on some ffmpeg builds → fall back to band + mild denoise.
+ * Speech polish after denoising: cut low-mid mud, lift presence, tame
+ * sibilance, then gently compress. No loudness normalization here — the clip
+ * is mixed dry/wet by strength (voiceMix.ts), so a louder wet track would jump
+ * in level; loudness is handled by the editor's own loudness tools.
  */
-function filterChains(strength: number): string[] {
+const SPEECH_POLISH = [
+  'equalizer=f=250:t=q:w=1:g=-3',
+  'equalizer=f=3500:t=q:w=1.2:g=2',
+  'deesser=i=0.4:m=0.5:f=0.5:s=o',
+  'acompressor=threshold=-21dB:ratio=3:attack=10:release=120:makeup=1.5',
+].join(',');
+
+/**
+ * Build an open-box speech isolation filter chain, best first.
+ * Each later chain drops a filter some ffmpeg builds lack, so the request
+ * still succeeds on a minimal binary.
+ */
+export function filterChains(strength: number): string[] {
   const nr = nrFromStrength(strength).toFixed(1);
   const nf = (-40 + (strength / 100) * 10).toFixed(1); // noise floor estimate
+  const denoise = `afftdn=nr=${nr}:nf=${nf}:tn=1`;
   return [
-    // Primary: FFT denoise + speech band
-    `highpass=f=80,lowpass=f=8000,afftdn=nr=${nr}:nf=${nf}:tn=1`,
+    // Primary: speech band + FFT denoise + EQ / de-ess / compression
+    `highpass=f=80,lowpass=f=12000,${denoise},${SPEECH_POLISH}`,
+    // Without the polish stage (older builds without deesser)
+    `highpass=f=80,lowpass=f=8000,${denoise}`,
     // Fallback without afftdn
     `highpass=f=100,lowpass=f=7000,anlmdn=s=0.0001:p=0.02:r=0.002:m=15`,
     // Last resort: band-limit only (still clarifies voice vs rumble)

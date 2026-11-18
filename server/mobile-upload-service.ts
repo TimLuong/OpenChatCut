@@ -51,7 +51,7 @@ interface MobileUploadSession extends MobileUploadSessionSnapshot {
   activeUploads: Set<Promise<void>>;
 }
 
-export type MobilePageLocale = 'zh' | 'en' | 'it' | 'ru' | 'ko' | 'th';
+export type MobilePageLocale = 'zh' | 'en' | 'it' | 'ru' | 'ko' | 'th' | 'vi';
 
 interface MobileUploadServiceOptions {
   bindHost?: string;
@@ -171,6 +171,12 @@ function mobilePage(locale: MobilePageLocale): string {
       hint: 'เลือกวิดีโอ รูป หรือเสียงจากมือถือ ให้อุปกรณ์ทั้งสองอยู่เครือข่ายเดียวกัน',
       choose: 'เลือกมีเดีย', multiple: 'เลือกหลายไฟล์ได้ เปิดหน้านี้ไว้จนกว่าอัปโหลดจะเสร็จ',
       waiting: 'รออัปโหลด', sent: 'ส่งแล้ว', failed: 'อัปโหลดไม่สำเร็จ', interrupted: 'เครือข่ายขาด',
+    },
+    vi: {
+      pageTitle: 'Tải lên từ điện thoại', title: 'Gửi media đến OpenChatCut',
+      hint: 'Chọn video, ảnh hoặc âm thanh từ điện thoại. Giữ hai thiết bị trong cùng một mạng nội bộ.',
+      choose: 'Chọn media', multiple: 'Chọn được nhiều file. Giữ trang này mở cho đến khi tải lên xong.',
+      waiting: 'Đang chờ tải lên', sent: 'Đã gửi', failed: 'Tải lên thất bại', interrupted: 'Mất kết nối mạng',
     },
     zh: {
       pageTitle: '手机传素材', title: '发送素材到 OpenChatCut',

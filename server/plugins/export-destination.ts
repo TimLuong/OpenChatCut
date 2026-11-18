@@ -72,7 +72,7 @@ function decodeSegment(value: string): string {
 
 function validFilename(name: string): boolean {
   if (!name || name === '.' || name === '..' || Buffer.byteLength(name, 'utf8') > 240) return false;
-  if (name !== sanitizeFileName(name, '') || /[\x7f]/.test(name)) return false;
+  if (name !== sanitizeFileName(name, '', Infinity) || /[\x7f]/.test(name)) return false;
   if (/[. ]$/.test(name) || RESERVED_WINDOWS_NAME.test(name)) return false;
   return true;
 }
